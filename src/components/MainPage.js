@@ -1,4 +1,4 @@
-import React, { Component } from "react";//React
+import React, { Component } from "react";
 import {
   Button,
   Navbar,
@@ -47,6 +47,7 @@ class MainPage extends Component {
     };
   }
 
+  // This function is used to add a new task
   addTask() {
     var temp = this.state.todo;
     var n = this.state.total;
@@ -63,6 +64,7 @@ class MainPage extends Component {
     });
   }
 
+  // This function change the tasks from todo list to doing list.
   todo_to_doing(item) {
     var todo = this.state.todo;
     var doing = this.state.doing;
@@ -72,6 +74,7 @@ class MainPage extends Component {
     this.setState({ todo: todo, doing: doing });
   }
 
+  // This function change the tasks from doing list to todo list.
   doing_to_todo(item) {
     var todo = this.state.todo;
     var doing = this.state.doing;
@@ -80,6 +83,8 @@ class MainPage extends Component {
     todo[item] = temp;
     this.setState({ todo: todo, doing: doing });
   }
+
+  // This function change the tasks from doing list to done list.
   doing_to_done(item) {
     var doing = this.state.doing;
     var done = this.state.done;
@@ -88,6 +93,8 @@ class MainPage extends Component {
     done[item] = temp;
     this.setState({ doing: doing, done: done });
   }
+
+  // This function change the tasks from done list to doing list.
   done_to_doing(item) {
     var done = this.state.done;
     var doing = this.state.doing;
@@ -97,16 +104,20 @@ class MainPage extends Component {
     this.setState({ done: done, doing: doing });
   }
 
+  // This is the render function
   render() {
     return (
       <div className="App">
+        {/* ----------------------------------------------Navbar-------------------------------------------- */}
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand className="ml-auto mr-auto" align="center">
             <h4 className="main-heading">Kanban Dashboard</h4>
           </Navbar.Brand>
         </Navbar>
 
+        {/* ----------------------------------------------Container-------------------------------------------- */}
         <Container className="board" fluid>
+          {/* ---------------------Add Task Button------------------- */}
           <Row>
             <Col align="center">
               <Button onClick={() => this.setState({ showModal: true })}>
@@ -114,7 +125,10 @@ class MainPage extends Component {
               </Button>
             </Col>
           </Row>
+
+          {/* ---------------------Task Lists------------------- */}
           <Row className="board">
+            {/* ---------------------TO DO List------------------- */}
             <Col>
               <Paper elevation={3} className="paper">
                 <h4 align="center">To Do</h4>
@@ -164,6 +178,8 @@ class MainPage extends Component {
                 )}
               </Paper>
             </Col>
+
+            {/* ---------------------Doing List------------------- */}
             <Col>
               <Paper elevation={3} className="paper">
                 <h4 align="center">Doing</h4>
@@ -219,6 +235,8 @@ class MainPage extends Component {
                 )}
               </Paper>
             </Col>
+
+            {/* ---------------------Done List------------------- */}
             <Col>
               <Paper elevation={3} className="paper">
                 <h4 align="center">Done</h4>
@@ -268,6 +286,7 @@ class MainPage extends Component {
           </Row>
         </Container>
 
+        {/* ---------------------Pop Up Modal for adding new task details------------------- */}
         <Modal
           size="md"
           centered
@@ -313,6 +332,7 @@ class MainPage extends Component {
           </Modal.Footer>
         </Modal>
 
+        {/* ---------------------Footer------------------- */}
         <Navbar bg="secondary" variant="dark" fixed="bottom" className="footer">
           <Navbar.Brand className="ml-auto mr-auto footer">
             Made by Gowtham
