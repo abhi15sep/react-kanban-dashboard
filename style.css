@@ -1,0 +1,48 @@
+/* -------------------Tag Styles------------------------ */
+div {
+  font-family: "Ubuntu", sans-serif;
+}
+h4{
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+}
+
+/* -------------------Other Styles------------------------ */
+
+/* Main Heading style */
+.main-heading{
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/* Footer Style */
+.footer {
+  height: 30px;
+  font-size: 15px;
+  font-weight: 10;
+}
+
+/* Style for the task list boards */
+.board{
+    margin-top: 20px;
+}
+
+/* Style for each task list */
+.paper{
+    padding: 10px 5% 20px 5%;
+    height: 100%;
+    width: 95%;
+    margin-left: 2.5%;
+}
+
+/* Style for each card */
+.card{
+    margin: 10px 0 10px 0; 
+}
+
+/* Style for card description */
+.card-body{
+    font-family: 'Montserrat', sans-serif;
+    font-size: .9rem;
+}
