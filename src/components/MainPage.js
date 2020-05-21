@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { Paper } from "@material-ui/core";
+import "./style.css";
 
 class MainPage extends Component {
   constructor(props) {
@@ -110,9 +111,13 @@ class MainPage extends Component {
       <div className="App">
         {/* ----------------------------------------------Navbar-------------------------------------------- */}
         <Navbar bg="dark" variant="dark">
+          <i class="fas fa-clipboard-check fa-2x task-icon" style={{marginLeft:"15px"}}></i>
           <Navbar.Brand className="ml-auto mr-auto" align="center">
             <h4 className="main-heading">Kanban Dashboard</h4>
           </Navbar.Brand>
+          <a  href="https://github.com/gowthamparuchuru/react-kanban-dashboard">
+            <i class="fab fa-github fa-2x github-icon" style={{marginRight:"15px"}}></i>
+          </a>
         </Navbar>
 
         {/* ----------------------------------------------Container-------------------------------------------- */}
