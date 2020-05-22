@@ -9,6 +9,8 @@ import {
   Modal,
   Form,
   Alert,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { Paper } from "@material-ui/core";
 import "./style.css";
@@ -48,6 +50,30 @@ class MainPage extends Component {
       editModal: {},
       showEditModal: false,
     };
+  }
+
+  saveData() {
+    window.localStorage.setItem("todo", JSON.stringify(this.state.todo));
+    window.localStorage.setItem("doing", JSON.stringify(this.state.doing));
+    window.localStorage.setItem("done", JSON.stringify(this.state.done));
+  }
+
+  componentDidMount() {
+    if (window.localStorage.getItem("user_status") === null) {
+      window.localStorage.setItem("user_status", "existing");
+      window.localStorage.setItem("todo", JSON.stringify(this.state.todo));
+      window.localStorage.setItem("doing", JSON.stringify(this.state.doing));
+      window.localStorage.setItem("done", JSON.stringify(this.state.done));
+    } else {
+      this.setState({
+        todo: JSON.parse(window.localStorage.getItem("todo")),
+        doing: JSON.parse(window.localStorage.getItem("doing")),
+        done: JSON.parse(window.localStorage.getItem("done")),
+      });
+    }
+    setInterval(() => {
+      this.saveData();
+    }, 1000);
   }
 
   // This function is used to add a new task
@@ -151,22 +177,33 @@ class MainPage extends Component {
       <div className="App">
         {/* ----------------------------------------------Navbar-------------------------------------------- */}
         <Navbar bg="dark" variant="dark">
-          <i
-            class="fas fa-clipboard-check fa-2x task-icon"
-            style={{ marginLeft: "15px" }}
-          ></i>
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>Know about Kanban</Tooltip>}
+          >
+            <a
+              href="https://www.digite.com/kanban/what-is-kanban/"
+              target="__blank"
+              style={{ marginLeft: "15px" }}
+            >
+              <i class="fab fa-jira fa-2x task-icon"></i>
+            </a>
+          </OverlayTrigger>
           <Navbar.Brand className="ml-auto mr-auto" align="center">
             <h4 className="main-heading">Kanban Dashboard</h4>
           </Navbar.Brand>
-          <a
-            href="https://github.com/gowthamparuchuru/react-kanban-dashboard"
-            target="__blank"
+          <OverlayTrigger
+            placement="left"
+            overlay={<Tooltip>View Source Code</Tooltip>}
           >
-            <i
-              class="fab fa-github fa-2x github-icon"
+            <a
+              href="https://github.com/gowthamparuchuru/react-kanban-dashboard"
+              target="__blank"
               style={{ marginRight: "15px" }}
-            ></i>
-          </a>
+            >
+              <i class="fab fa-github fa-2x github-icon"></i>
+            </a>
+          </OverlayTrigger>
         </Navbar>
 
         {/* ----------------------------------------------Container-------------------------------------------- */}
@@ -187,11 +224,19 @@ class MainPage extends Component {
           <Row className="board">
             {/* ---------------------TO DO List------------------- */}
             <Col>
-              <Paper elevation={3} className="paper">
-                <h4 align="center">To Do</h4>
+              <Paper
+                elevation={5}
+                className="paper"
+                style={{ borderRadius: "3%" }}
+              >
+                <Alert variant="primary" style={{ padding: "5px" }}>
+                  <h4 align="center" style={{ marginBottom: "0px" }}>
+                    To Do
+                  </h4>
+                </Alert>
                 {Object.keys(this.state.todo).length === 0 ? (
                   <Alert
-                    variant="primary"
+                    variant="danger"
                     align="center"
                     style={{ marginTop: "50px" }}
                   >
@@ -249,11 +294,19 @@ class MainPage extends Component {
 
             {/* ---------------------Doing List------------------- */}
             <Col>
-              <Paper elevation={3} className="paper">
-                <h4 align="center">Doing</h4>
+              <Paper
+                elevation={5}
+                className="paper"
+                style={{ borderRadius: "3%" }}
+              >
+                <Alert variant="info" style={{ padding: "5px" }}>
+                  <h4 align="center" style={{ marginBottom: "0" }}>
+                    Doing
+                  </h4>
+                </Alert>
                 {Object.keys(this.state.doing).length === 0 ? (
                   <Alert
-                    variant="primary"
+                    variant="danger"
                     align="center"
                     style={{ marginTop: "50px" }}
                   >
@@ -316,11 +369,19 @@ class MainPage extends Component {
 
             {/* ---------------------Done List------------------- */}
             <Col>
-              <Paper elevation={3} className="paper">
-                <h4 align="center">Done</h4>
+              <Paper
+                elevation={5}
+                className="paper"
+                style={{ borderRadius: "3%" }}
+              >
+                <Alert variant="success" style={{ padding: "5px" }}>
+                  <h4 align="center" style={{ marginBottom: "0" }}>
+                    Done
+                  </h4>
+                </Alert>
                 {Object.keys(this.state.done).length === 0 ? (
                   <Alert
-                    variant="primary"
+                    variant="danger"
                     align="center"
                     style={{ marginTop: "50px" }}
                   >
@@ -407,12 +468,7 @@ class MainPage extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button
-              variant="secondary"
-              onClick={() => this.setState({ showEditModal: false })}
-            >
-              Cancel
-            </Button>
-            <Button
+              block
               variant="primary"
               onClick={() => this.saveEditTask()}
               disabled={this.state.heading === "" ? true : false}
@@ -453,12 +509,7 @@ class MainPage extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button
-              variant="secondary"
-              onClick={() => this.setState({ showModal: false })}
-            >
-              Discard
-            </Button>
-            <Button
+              block
               variant="primary"
               onClick={() => this.addTask()}
               disabled={this.state.heading === "" ? true : false}
@@ -469,7 +520,12 @@ class MainPage extends Component {
         </Modal>
 
         {/* ---------------------Footer------------------- */}
-        <Navbar bg="secondary" variant="dark" fixed="bottom" className="footer">
+        <Navbar
+          variant="flat"
+          fixed="bottom"
+          className="footer"
+          style={{ backgroundColor: "#e8e4e1" }}
+        >
           <Navbar.Brand className="ml-auto mr-auto footer">
             <a
               className="footer-link"
