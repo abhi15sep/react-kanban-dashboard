@@ -45,6 +45,8 @@ class MainPage extends Component {
       showModal: false,
       heading: "",
       details: "",
+      editModal: {},
+      showEditModal: false,
     };
   }
 
@@ -63,6 +65,44 @@ class MainPage extends Component {
       total: n,
       showModal: false,
     });
+  }
+
+  editTask(item) {
+    var temp;
+    if (item in this.state.todo) {
+      temp = this.state.todo[item];
+    } else if (item in this.state.doing) {
+      temp = this.state.doing[item];
+    } else {
+      temp = this.state.done[item];
+    }
+    this.setState({
+      showEditModal: true,
+      editModal: temp,
+      heading: temp["heading"],
+      details: temp["details"],
+    });
+  }
+
+  saveEditTask() {
+    var temp = this.state.editModal;
+    temp["heading"] = this.state.heading;
+    temp["details"] = this.state.details;
+    var master;
+    if (temp["id"] in this.state.todo) {
+      master = this.state.todo;
+      master[temp["id"]] = temp;
+      this.setState({ todo: master });
+    } else if (temp["id"] in this.state.doing) {
+      master = this.state.doing;
+      master[temp["id"]] = temp;
+      this.setState({ doing: master });
+    } else {
+      master = this.state.done;
+      master[temp["id"]] = temp;
+      this.setState({ done: master });
+    }
+    this.setState({ showEditModal: false });
   }
 
   // This function change the tasks from todo list to doing list.
@@ -111,12 +151,21 @@ class MainPage extends Component {
       <div className="App">
         {/* ----------------------------------------------Navbar-------------------------------------------- */}
         <Navbar bg="dark" variant="dark">
-          <i class="fas fa-clipboard-check fa-2x task-icon" style={{marginLeft:"15px"}}></i>
+          <i
+            class="fas fa-clipboard-check fa-2x task-icon"
+            style={{ marginLeft: "15px" }}
+          ></i>
           <Navbar.Brand className="ml-auto mr-auto" align="center">
             <h4 className="main-heading">Kanban Dashboard</h4>
           </Navbar.Brand>
-          <a  href="https://github.com/gowthamparuchuru/react-kanban-dashboard">
-            <i class="fab fa-github fa-2x github-icon" style={{marginRight:"15px"}}></i>
+          <a
+            href="https://github.com/gowthamparuchuru/react-kanban-dashboard"
+            target="__blank"
+          >
+            <i
+              class="fab fa-github fa-2x github-icon"
+              style={{ marginRight: "15px" }}
+            ></i>
           </a>
         </Navbar>
 
@@ -125,8 +174,11 @@ class MainPage extends Component {
           {/* ---------------------Add Task Button------------------- */}
           <Row>
             <Col align="center">
-              <Button onClick={() => this.setState({ showModal: true })}>
-                <i class="fas fa-plus"></i> Add Task
+              <Button
+                onClick={() => this.setState({ showModal: true })}
+                variant="info"
+              >
+                <i class="fas fa-plus-circle  mr-2"></i>Add Task
               </Button>
             </Col>
           </Row>
@@ -165,10 +217,12 @@ class MainPage extends Component {
                         <Card.Text>
                           {this.state.todo[item]["details"]}
                         </Card.Text>
+
                         <Button
                           size="sm"
                           variant="outline-danger"
                           className="float-right"
+                          style={{ borderRadius: "70%" }}
                           onClick={() => {
                             var temp = this.state.todo;
                             delete temp[item];
@@ -176,6 +230,15 @@ class MainPage extends Component {
                           }}
                         >
                           <i class="far fa-trash-alt"></i>
+                        </Button>
+                        <Button
+                          className="float-right mr-2"
+                          style={{ borderRadius: "70%" }}
+                          variant="outline-info"
+                          size="sm"
+                          onClick={() => this.editTask(item)}
+                        >
+                          <i class="fas fa-pen"></i>
                         </Button>
                       </Card.Body>
                     </Card>
@@ -226,6 +289,7 @@ class MainPage extends Component {
                           size="sm"
                           variant="outline-danger"
                           className="float-right"
+                          style={{ borderRadius: "70%" }}
                           onClick={() => {
                             var temp = this.state.doing;
                             delete temp[item];
@@ -233,6 +297,15 @@ class MainPage extends Component {
                           }}
                         >
                           <i class="far fa-trash-alt"></i>
+                        </Button>
+                        <Button
+                          className="float-right mr-2"
+                          style={{ borderRadius: "70%" }}
+                          variant="outline-info"
+                          size="sm"
+                          onClick={() => this.editTask(item)}
+                        >
+                          <i class="fas fa-pen"></i>
                         </Button>
                       </Card.Body>
                     </Card>
@@ -273,6 +346,7 @@ class MainPage extends Component {
                         <Button
                           size="sm"
                           variant="outline-danger"
+                          style={{ borderRadius: "70%" }}
                           className="float-right"
                           onClick={() => {
                             var temp = this.state.done;
@@ -282,6 +356,15 @@ class MainPage extends Component {
                         >
                           <i class="far fa-trash-alt"></i>
                         </Button>
+                        <Button
+                          className="float-right mr-2"
+                          style={{ borderRadius: "70%" }}
+                          variant="outline-info"
+                          size="sm"
+                          onClick={() => this.editTask(item)}
+                        >
+                          <i class="fas fa-pen"></i>
+                        </Button>
                       </Card.Body>
                     </Card>
                   ))
@@ -290,6 +373,54 @@ class MainPage extends Component {
             </Col>
           </Row>
         </Container>
+
+        {/* ---------------------Pop Up Modal for Editing a task details------------------- */}
+        <Modal
+          size="md"
+          centered
+          show={this.state.showEditModal}
+          onHide={() => this.setState({ showEditModal: false })}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Task</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group>
+                <Form.Label>Heading</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={(e) => this.setState({ heading: e.target.value })}
+                  value={this.state.heading}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Details :</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  onChange={(e) => this.setState({ details: e.target.value })}
+                  value={this.state.details}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => this.setState({ showEditModal: false })}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => this.saveEditTask()}
+              disabled={this.state.heading === "" ? true : false}
+            >
+              Save Edits
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         {/* ---------------------Pop Up Modal for adding new task details------------------- */}
         <Modal
@@ -340,7 +471,17 @@ class MainPage extends Component {
         {/* ---------------------Footer------------------- */}
         <Navbar bg="secondary" variant="dark" fixed="bottom" className="footer">
           <Navbar.Brand className="ml-auto mr-auto footer">
-            Made by Gowtham
+            <a
+              className="footer-link"
+              href="https://gowthamparuchuru.github.io/my-portfolio/"
+              target="__blank"
+            >
+              Gowtham
+            </a>{" "}
+            <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>
+              ©
+            </span>{" "}
+            {new Date().getFullYear()}
           </Navbar.Brand>
         </Navbar>
       </div>
