@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/react-kanban-dashboard/static/css/main.de549d7f.chunk.css",
-    "main.js": "/react-kanban-dashboard/static/js/main.fe57ff6e.chunk.js",
-    "main.js.map": "/react-kanban-dashboard/static/js/main.fe57ff6e.chunk.js.map",
+    "main.js": "/react-kanban-dashboard/static/js/main.7a14a669.chunk.js",
+    "main.js.map": "/react-kanban-dashboard/static/js/main.7a14a669.chunk.js.map",
     "runtime-main.js": "/react-kanban-dashboard/static/js/runtime-main.fd93a57a.js",
     "runtime-main.js.map": "/react-kanban-dashboard/static/js/runtime-main.fd93a57a.js.map",
-    "static/js/2.5043df60.chunk.js": "/react-kanban-dashboard/static/js/2.5043df60.chunk.js",
-    "static/js/2.5043df60.chunk.js.map": "/react-kanban-dashboard/static/js/2.5043df60.chunk.js.map",
+    "static/js/2.9e79264e.chunk.js": "/react-kanban-dashboard/static/js/2.9e79264e.chunk.js",
+    "static/js/2.9e79264e.chunk.js.map": "/react-kanban-dashboard/static/js/2.9e79264e.chunk.js.map",
     "index.html": "/react-kanban-dashboard/index.html",
-    "precache-manifest.f1629286d985ad096cbd758459ecb161.js": "/react-kanban-dashboard/precache-manifest.f1629286d985ad096cbd758459ecb161.js",
+    "precache-manifest.2d4b4fa865ed130b9810e8de64affc6e.js": "/react-kanban-dashboard/precache-manifest.2d4b4fa865ed130b9810e8de64affc6e.js",
     "service-worker.js": "/react-kanban-dashboard/service-worker.js",
     "static/css/main.de549d7f.chunk.css.map": "/react-kanban-dashboard/static/css/main.de549d7f.chunk.css.map",
-    "static/js/2.5043df60.chunk.js.LICENSE.txt": "/react-kanban-dashboard/static/js/2.5043df60.chunk.js.LICENSE.txt"
+    "static/js/2.9e79264e.chunk.js.LICENSE.txt": "/react-kanban-dashboard/static/js/2.9e79264e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.fd93a57a.js",
-    "static/js/2.5043df60.chunk.js",
+    "static/js/2.9e79264e.chunk.js",
     "static/css/main.de549d7f.chunk.css",
-    "static/js/main.fe57ff6e.chunk.js"
+    "static/js/main.7a14a669.chunk.js"
   ]
 }
