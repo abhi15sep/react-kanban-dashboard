@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Button,
-  Navbar,
   Container,
   Row,
   Col,
@@ -9,12 +8,12 @@ import {
   Modal,
   Form,
   Alert,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { Paper } from "@material-ui/core";
 import "./style.css";
+import Header from "./Header";
+import Footer from "./Footer";
 
 class MainPage extends Component {
   constructor(props) {
@@ -214,8 +213,16 @@ class MainPage extends Component {
     this.setState({ draggedCard: null });
   }
 
-  dragOver(e) {
+  dragOver(e, index) {
     e.preventDefault();
+  }
+
+  dragEnter(e, index) {
+    e.preventDefault();
+  }
+  dragLeave(e, index) {
+    e.preventDefault();
+    // document.getElementsByClassName("paper-list")[index].style.backgroundColor="white";
   }
 
   dropCard(e, item) {
@@ -242,37 +249,7 @@ class MainPage extends Component {
   render() {
     return (
       <div className="App">
-        {/* ----------------------------------------------Navbar-------------------------------------------- */}
-        <Navbar bg="dark" variant="dark">
-          <OverlayTrigger
-            placement="right"
-            overlay={<Tooltip>Know about Kanban</Tooltip>}
-          >
-            <a
-              href="https://www.digite.com/kanban/what-is-kanban/"
-              target="__blank"
-              style={{ marginLeft: "15px" }}
-            >
-              <i class="fab fa-jira fa-2x jira-icon"></i>
-            </a>
-          </OverlayTrigger>
-          <Navbar.Brand className="ml-auto mr-auto" align="center">
-            <h4 className="main-heading">Kanban Dashboard</h4>
-          </Navbar.Brand>
-          <OverlayTrigger
-            placement="left"
-            overlay={<Tooltip>View Source Code</Tooltip>}
-          >
-            <a
-              href="https://github.com/gowthamparuchuru/react-kanban-dashboard"
-              target="__blank"
-              style={{ marginRight: "15px" }}
-            >
-              <i class="fab fa-github fa-2x github-icon"></i>
-            </a>
-          </OverlayTrigger>
-        </Navbar>
-
+        <Header />
         {/* ----------------------------------------------Container-------------------------------------------- */}
         <Container className="board" fluid>
           {/* ---------------------Add Task Button------------------- */}
@@ -285,28 +262,6 @@ class MainPage extends Component {
               >
                 <i class="fas fa-plus-circle  mr-2"></i>Add Task
               </Button>
-
-              {/* <Button
-                variant="danger"
-                className="float-right"
-                onClick={() => {
-                  if (window.confirm("Are you sure to reset?"))
-                    this.setState({ todo: {}, doing: {}, done: {} });
-                }}
-              >
-                Reset
-              </Button>
-              <span className="float-right mr-2 mt-1">
-                <BootstrapSwitchButton
-                  checked={this.state.autoSave}
-                  onstyle="success"
-                  offstyle="danger"
-                  size="sm"
-                  onChange={() => {
-                    this.setState({ autoSave: !this.state.autoSave });
-                  }}
-                />
-              </span> */}
             </Col>
             <Col>
               <Button
@@ -328,8 +283,10 @@ class MainPage extends Component {
                   elevation={5}
                   className="paper-list"
                   style={{ borderRadius: "3%" }}
-                  onDragOver={(e) => this.dragOver(e)}
+                  onDragOver={(e) => this.dragOver(e, 0)}
                   onDrop={(e) => this.dropCard(e, 1)}
+                  onDragEnter={(e) => this.dragEnter(e, 0)}
+                  onDragLeave={(e) => this.dragLeave(e, 0)}
                 >
                   <Alert variant="primary" style={{ padding: "5px" }}>
                     <h4 align="center" style={{ marginBottom: "0px" }}>
@@ -413,8 +370,10 @@ class MainPage extends Component {
                   elevation={5}
                   className="paper-list"
                   style={{ borderRadius: "3%" }}
-                  onDragOver={(e) => this.dragOver(e)}
+                  onDragOver={(e) => this.dragOver(e, 1)}
                   onDrop={(e) => this.dropCard(e, 2)}
+                  onDragEnter={(e) => this.dragEnter(e, 1)}
+                  onDragLeave={(e) => this.dragLeave(e, 1)}
                 >
                   <Alert variant="info" style={{ padding: "5px" }}>
                     <h4 align="center" style={{ marginBottom: "0" }}>
@@ -503,8 +462,10 @@ class MainPage extends Component {
                   elevation={5}
                   className="paper-list"
                   style={{ borderRadius: "3%" }}
-                  onDragOver={(e) => this.dragOver(e)}
+                  onDragOver={(e) => this.dragOver(e, 2)}
                   onDrop={(e) => this.dropCard(e, 3)}
+                  onDragEnter={(e) => this.dragEnter(e, 2)}
+                  onDragLeave={(e) => this.dragLeave(e, 2)}
                 >
                   <Alert variant="success" style={{ padding: "5px" }}>
                     <h4 align="center" style={{ marginBottom: "0" }}>
@@ -709,14 +670,12 @@ class MainPage extends Component {
                     variant="danger"
                     onClick={() => {
                       this.setState({ showSettings: false });
-                      setTimeout(function () {
-                        if (window.confirm("Are you sure to reset?"))
-                          this.setState({
-                            todo: {},
-                            doing: {},
-                            done: {},
-                          });
-                      }, 100);
+                      if (window.confirm("Are you sure to reset?"))
+                        this.setState({
+                          todo: {},
+                          doing: {},
+                          done: {},
+                        });
                     }}
                   >
                     <i class="fas fa-broom mr-2"></i>Reset Chart
@@ -727,27 +686,7 @@ class MainPage extends Component {
           </Modal.Body>
         </Modal>
 
-        {/* ---------------------Footer------------------- */}
-        <Navbar
-          variant="flat"
-          fixed="bottom"
-          className="footer"
-          style={{ backgroundColor: "#e8e4e1" }}
-        >
-          <Navbar.Brand className="ml-auto mr-auto footer">
-            <a
-              className="footer-link"
-              href="https://gowthamparuchuru.github.io/my-portfolio/"
-              target="__blank"
-            >
-              Gowtham
-            </a>{" "}
-            <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>
-              ©
-            </span>{" "}
-            {new Date().getFullYear()}
-          </Navbar.Brand>
-        </Navbar>
+        <Footer />
       </div>
     );
   }
